@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { 
+           margin-left: 30%;
+           background-color: ivory; 
+         }
+    #mytitle
+      {
+        margin: 10px 0 2px 0;
+        font-weight: bold;
+        font-size: 18px;
+        font-family: Serif;
+      }
+  </style>
+</head>
+<body>
+  <button style="position: absolute; left: 30px;"> <a href="/add-post"> upload post </a> </button>
+  <button style="position: absolute; right: 100px;"> <a href= '/myposts'> My Posts </a> </button>
+  <button style="position: absolute; right: 30px;"> <a href= '/logout'> Logout </a> </button> <br>
+
+  <% items.forEach(function(x){ %>
+    <div>
+      <p id = "mytitle"> <%= x.title%> </p>
+      <a target="_blank" href=  "post/<%= x._id %>" >  <img  src= <%= x.photoUrl %> width = '250' height = '300'>  </a>
+      <!-- <p> Time : <%=x.time %> </p> <br><br>  -->
+    </div>
+  <% }); %>
+
+</body>
+</html>

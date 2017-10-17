@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { 
+           margin-left: 30%;
+           background-color: ivory; 
+         }
+    #mytitle
+      {
+        margin: 10px 0 2px 0;
+        font-weight: bold;
+        font-size: 18px;
+        font-family: Serif;
+      }
+      #mydelete
+      {
+        margin: 10px 0 -150px 195px;
+      }
+  </style>
+</head>
+<body>
+   <% posts.forEach(function(x){ %>
+    <div>
+      <!-- <button id = "mydelete" > <a href= '/beta'> Delete </a> </button> -->
+      <p id = "mytitle"> <%= x.title%> </p>
+       <img  src= <%= x.photoUrl %> width = '250' height = '300'> 
+      <!-- <p> Time : <%=x.time %> </p> <br><br>  -->
+    </div>
+  <% }); %>
+
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { 
+           margin-left : 30%;
+           background-color: ivory; 
+         }
+    #myname
+    {
+      margin : 5px 0 2px 0;
+      font-weight: bold;
+      font-size: 20px;
+      font-family: Arial;
+    }
+    #mytitle
+    {
+      margin : 5px 0 2px 0;
+      font-weight: bold;
+      font-size: 18px;
+      font-family: Serif;
+    }
+    #mydescription
+    {
+      margin : 0 0 0 0;
+      font-style: italic;
+      font-size: 16px;
+    } 
+    #mycomment
+    {
+      margin : 4px 0px 0 0;
+      /*font-weight: bold;*/
+      font-size: 15px;
+    }
+    #myreply
+    {
+      margin : 5px 0 -15px 0;
+    }
+    #myreplybutton
+    {
+      margin : 0 0 5px 0;
+    }
+    #newcomment
+    {
+      margin : -5px 0 -15px 0;
+    }
+    #replies
+    {
+      margin : 0 0 0 0;
+      /*font-weight: bold;*/
+      font-size: 13px;
+    }
+    #myduration
+    {
+      margin : -20px 0 2px 280px;
+      font-weight: bold;
+      font-size: 12px;
+      font-family: Arial;
+    }
+
+
+  </style>
+</head>
+  <body>
+    <p id = "myname"> <%= item.userId.username %> </p>  <p id= 'myduration'>  <%= item.duration %> </p>
+    <img  src= <%= item.photoUrl %> width = '350' height = '400' align=”left”>
+     <br>
+    <div>
+
+    <form action = '/post/<%= item._id %>/like' method="POST">
+        <button> Like </button>
+    </form>
+
+    </div>
+    <p id = "mytitle"> <%= item.title%> </p> 
+    <p id = "mydescription"> <%= item.description %> </p>
+
+    <% item.comment.forEach(function(x){ %>
+      <div>
+        <p id = "mycomment"> <b> <%= x.user.username %> => </b> <%= x.comment %> </p> 
+        <% x.reply.forEach(function(y){  %>
+          <p id = 'replies' ><b> <%= y.user.username %> : </b> <%= y.reply %> </p>
+        <% }); %>
+
+
+        <form action = '/post/<%= item._id %>/comment/<%= x._id %>/reply' method="POST">
+          <textarea name="reply" placeholder="" rows = "1" cols = "20" id = "myreply"></textarea> </p>
+          <button id = "myreplybutton" > Reply </button>
+        </form>
+      </div>
+    <% }); %>
+
+    <div>
+    <form action = "/post/<%= item._id %>/comment" method = "POST" >
+    <p>
+    <textarea name="comment" placeholder="" rows = "3" cols = "20" id = "newcomment"></textarea> </p>
+    <p>
+    <button onclick = "commentfunction()">  comment </button>
+    </p>
+    </div>
+
+  </body>
+
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("button").click(commentfunction(){
+        $.post("/post/<%= item._id %>/comment",
+        {
+          comment = oForm.elements["comment"].value;
+        },
+        function(data, status){
+            alert("Data: " + data + "\nStatus: " + status);
+        });
+    });
+});
+</script> -->
+
+
+
+
+</html>
