@@ -8,12 +8,11 @@ var passport = require('passport');
 var mongoStore = require('connect-mongo')(session);
 var flash    = require('connect-flash');
 
-
 var app = express();
 
 mongoose.connect('mongodb://localhost/video');
 
-var user = require('./controllers/user');
+var user = require('./routes/user');
 require('./config/passport');
 
 var db = mongoose.connection;
@@ -34,7 +33,6 @@ app.use(session({
 	store : new mongoStore({mongooseConnection : mongoose.connection})
 }));
 
-
 // middleware for preventing back button after logout
 app.use(function(req, res, next) {
     if (!req.user)
@@ -42,24 +40,11 @@ app.use(function(req, res, next) {
     next();
 });
 
-
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-
-
-
 app.use(user);
-/*
-app.use(function(req, res, next) {
-	if(req.url === '/login' || req.url === '/signup' || req.url === '/'){
-		res.redirect('/home')
-	}
-});*/
-
-
-
 
 app.listen(3000, function(){
 	console.log("our video server is running on 3000");

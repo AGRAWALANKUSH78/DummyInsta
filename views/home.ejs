@@ -3,9 +3,9 @@
 <head>
   <style>
     body { 
-           margin-left: 30%;
-           background-color: ivory; 
-         }
+            margin-left: 30%;
+            background-color: ivory; 
+          }
     #mytitle
       {
         margin: 10px 0 2px 0;
@@ -20,11 +20,10 @@
   <button style="position: absolute; right: 100px;"> <a href= '/myposts'> My Posts </a> </button>
   <button style="position: absolute; right: 30px;"> <a href= '/logout'> Logout </a> </button> <br>
 
-  <% items.forEach(function(x){ %>
+  <% allPosts.forEach(function(singlePost){ %>
     <div>
-      <p id = "mytitle"> <%= x.title%> </p>
-      <a target="_blank" href=  "post/<%= x._id %>" >  <img  src= <%= x.photoUrl %> width = '250' height = '300'>  </a>
-      <!-- <p> Time : <%=x.time %> </p> <br><br>  -->
+      <p id = "mytitle"> <%= singlePost.title%> </p>
+      <a target="_blank" href=  "post/<%= singlePost._id %>" >  <img  src= <%= singlePost.photoUrl %> width = '250' height = '300'>  </a>
     </div>
   <% }); %>
 

@@ -3,9 +3,9 @@
 <head>
   <style>
     body { 
-           margin-left: 30%;
-           background-color: ivory; 
-         }
+            margin-left: 30%;
+            background-color: ivory; 
+          }
     #mytitle
       {
         margin: -19px 0 2px 0;
@@ -13,21 +13,19 @@
         font-size: 18px;
         font-family: Serif;
       }
-      #mydelete
+    #mydelete
       {
         margin: 10px 0 -150px 195px;
       }
   </style>
 </head>
 <body>
-   <% posts.forEach(function(x){ %>
+  <% userPosts.forEach(function(eachPost){ %>
     <div>
-      <button id = "mydelete" > <a href= '/post/<%=x._id%>/delete' > Delete </a> </button>
-      <p id = "mytitle"> <%= x.title%> </p>
-       <img  src= <%= x.photoUrl %> width = '250' height = '300'> 
-      <!-- <p> Time : <%=x.time %> </p> <br><br>  -->
+      <button id = "mydelete" > <a href= '/post/<%=eachPost._id%>/delete' > Delete </a> </button>
+      <p id = "mytitle"> <%= eachPost.title%> </p>
+      <img  src= <%= eachPost.photoUrl %> width = '250' height = '300'> 
     </div>
   <% }); %>
-
 </body>
 </html>
