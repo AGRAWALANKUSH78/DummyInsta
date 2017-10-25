@@ -8,7 +8,7 @@
          }
     #mytitle
       {
-        margin: 10px 0 2px 0;
+        margin: -19px 0 2px 0;
         font-weight: bold;
         font-size: 18px;
         font-family: Serif;
@@ -22,7 +22,7 @@
 <body>
    <% posts.forEach(function(x){ %>
     <div>
-      <!-- <button id = "mydelete" > <a href= '/beta'> Delete </a> </button> -->
+      <button id = "mydelete" > <a href= '/post/<%=x._id%>/delete' > Delete </a> </button>
       <p id = "mytitle"> <%= x.title%> </p>
        <img  src= <%= x.photoUrl %> width = '250' height = '300'> 
       <!-- <p> Time : <%=x.time %> </p> <br><br>  -->

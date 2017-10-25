@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <!-- <link rel="CSS" href="/CSS/post.css" />   -->
   <style>
-    body { 
+      body { 
            margin-left : 30%;
            background-color: ivory; 
          }
@@ -32,13 +33,10 @@
       /*font-weight: bold;*/
       font-size: 15px;
     }
-    #myreply
-    {
-      margin : 5px 0 -15px 0;
-    }
+    
     #myreplybutton
     {
-      margin : 0 0 5px 0;
+      margin : -25px 0 5px 0;
     }
     #newcomment
     {
@@ -46,7 +44,7 @@
     }
     #replies
     {
-      margin : 0 0 0 0;
+      margin : 0 0 5px 0;
       /*font-weight: bold;*/
       font-size: 13px;
     }
@@ -57,8 +55,10 @@
       font-size: 12px;
       font-family: Arial;
     }
-
-
+    .reply {
+      margin: 0 0 -15px 0;
+    }
+   
   </style>
 </head>
   <body>
@@ -67,9 +67,7 @@
      <br>
     <div>
 
-    <form action = '/post/<%= item._id %>/like' method="POST">
-        <button> Like </button>
-    </form>
+    <button id="likebutton" onclick="likePost('<%= item.id %>')"><%= item.likestatus %></button>
 
     </div>
     <p id = "mytitle"> <%= item.title%> </p> 
@@ -79,45 +77,162 @@
       <div>
         <p id = "mycomment"> <b> <%= x.user.username %> => </b> <%= x.comment %> </p> 
         <% x.reply.forEach(function(y){  %>
-          <p id = 'replies' ><b> <%= y.user.username %> : </b> <%= y.reply %> </p>
+          <p id = 'replies' > <i><b> <%= y.user.username %> : </b><i> <%= y.reply %> </p>
         <% }); %>
 
 
-        <form action = '/post/<%= item._id %>/comment/<%= x._id %>/reply' method="POST">
-          <textarea name="reply" placeholder="" rows = "1" cols = "20" id = "myreply"></textarea> </p>
-          <button id = "myreplybutton" > Reply </button>
-        </form>
+        <!-- <form action = '/post/<%= item._id %>/comment/<%= x._id %>/reply' method="POST">  -->
+          <textarea name="reply" placeholder="" rows = "1" cols = "20" class="reply" id = "myreply_<%= x._id%>"></textarea> </p>
+          <button onclick="replyPost('<%= item._id %>','<%= x._id %>')" id = "myreplybutton" > Reply </button>
+       <!--  </form> -->
       </div>
     <% }); %>
 
     <div>
-    <form action = "/post/<%= item._id %>/comment" method = "POST" >
-    <p>
-    <textarea name="comment" placeholder="" rows = "3" cols = "20" id = "newcomment"></textarea> </p>
-    <p>
-    <button onclick = "commentfunction()">  comment </button>
-    </p>
-    </div>
+ <!--    <form> -->
+      <p>
+        <textarea name="comment" placeholder="" rows = "3" cols = "20" id = "newcomment"></textarea> </p>
+        <p>
+        <button onclick="commentPost('<%= item.id %>')" id='commentbutton'>  comment </button>
+      </p>
+    <!-- </form>  -->
+  </div>
+
+
 
   </body>
 
-
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
-$(document).ready(function(){
-    $("button").click(commentfunction(){
-        $.post("/post/<%= item._id %>/comment",
-        {
-          comment = oForm.elements["comment"].value;
-        },
-        function(data, status){
-            alert("Data: " + data + "\nStatus: " + status);
-        });
-    });
+
+
+
+function replyPost(idpost, idcomment) 
+  {  
+    var rep = document.getElementById(`myreply_${idcomment}`).value;
+    console.log('hello');
+    $.ajax({
+      type: 'POST',
+      url: `/post/${idpost}/comment/${idcomment}/reply`,
+      data : {
+        'reply1' : rep
+      },
+      success: function(result){
+        // alert(result.comment);
+        window.location = '/post/' + idpost;
+        }
+    })
+  };
+
+
+
+
+
+function commentPost(id) 
+  {  
+    var comm = document.getElementById("newcomment").value;
+    $.ajax({
+      type: 'POST',
+      url: `/post/${id}/comment`,
+      data : {
+        'comment1' : comm
+      },
+      success: function(result){
+        window.location = '/post/' + id;
+        }
+    })
+  };
+
+
+function likePost(id) 
+  {
+    var elem = document.getElementById("likebutton"); 
+    $.ajax({
+        type: 'POST',
+        url: `/post/${id}/like`,
+        success: function(result) {
+          alert(result.action);
+          if(elem.innerHTML == "Like") {
+            elem.innerHTML = "Liked";
+          } else {
+            elem.innerHTML = "Like";
+          }
+        }
+      });
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*$('#likebutton').click(function(){
+  $.post('/post/<%= item._id %>/like');
 });
-</script> -->
+*/
+
+// $('#newcomment').on('click', function(){
+//   $.ajax({
+//     type : 'POST',
+//     url : '/post/<%= item._id %>/comment',
+//     data : { alpha : 'beta'},
+//     success : function(resultData) {
+//          alert(resultData);
+//       }
+
+//   })
+// })
+
+/*$(function(){
+  var $newcomment = $('#newcomment');
+  var newcomment = $('#newcomment');
+
+  $.ajax({
+    type : 'GET',
+    url : `/post/${id}/comment`,
+    success : function(){} 
+  })
+
+
+  $('#commentbutton').on('click', function(){
+
+    type : 
+
+  })
+})
+
+*/
+
+</script>
 
 
 
 
+<!-- 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+
+$('button').click(function change(){
+  $.ajax({
+    type : 'POST',
+    url : '/post/<%= item._id %>/like',
+    success : function(result){
+      $('#likebutton').html(result);
+    }
+  })
+});
+
+</script>
+
+
+ -->
 </html>

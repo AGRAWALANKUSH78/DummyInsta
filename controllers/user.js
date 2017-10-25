@@ -12,11 +12,11 @@ var Post = require('../models/post');
 var Comment = require('../models/comment');
 var Reply = require('../models/reply');
 
-router.get('/', function(req, res){
+router.get('/', checkLogin, function(req, res){
 	res.render('index');
 });
 
-router.get('/signup', function(req, res){
+router.get('/signup', checkLogin, function(req, res){
 	res.render('signup');
 });
 
@@ -28,7 +28,7 @@ router.post('/signup', passport.authenticate('local-signup', {
 }));
 
 
-router.get('/login', function(req, res){
+router.get('/login', checkLogin, function(req, res){
 	res.render('login');
 });
 
@@ -49,7 +49,6 @@ router.get('/logout', isLoggedIn, function(req, res){
 
 router.get('/home', isLoggedIn, function(req, res){
 	Post.find({}, function(err, arr){
-		// console.log(arr);
 		if(err){
 			console.log(err);
 		}
@@ -67,8 +66,13 @@ router.get('/myposts', isLoggedIn, (req, res) => {
 	  .then((obj) => {
 	  	res.render('mypost', { posts : obj});
 	  })
-})
+});
 
+
+router.get('/post/:post_id/delete' , isLoggedIn, (req, res) => {
+	Post.remove({ _id : req.params.post_id }).exec();
+	res.redirect('/myposts');
+});
 
 
 
@@ -91,9 +95,14 @@ router.get('/post/:post_id' , isLoggedIn, (req, res) => {
         	}
         })
         .populate('userId', 'username')
-        .populate('like', 'username')
+        // .populate('like', 'username')
         .then(obj => { 
             obj.duration = moment(obj.time).fromNow();
+            if(obj.like.indexOf(req.user.id) > -1){
+            	obj.likestatus = 'Liked';
+            } else {
+           	obj.likestatus = 'Like';
+            }
             res.render('post', { item : obj });
       })
      .catch(error => console.log(error));
@@ -103,20 +112,22 @@ router.get('/post/:post_id' , isLoggedIn, (req, res) => {
 
 router.post('/post/:post_id/like', isLoggedIn, (req, res) => {
     let liked = [];
+    let action;
     const userId = req.user.id;   
     Post.findById({ _id : req.params.post_id })
       .then((post) => {
       	liked = post.like;
-        if(liked.indexOf(userId) > -1){
-            var position = liked.indexOf(userId);   
+        if(liked.indexOf(userId) > -1) {
+            const position = liked.indexOf(userId);   
             liked.splice(position, 1);            
             post.like.pull(userId);
+            action = 'you unliked this post';
         } else {            
-            
             post.like.push(userId);
+            action='you liked this post';
         }
         post.save();
-        res.redirect('/home');
+        res.json({action});
       })
       .catch(error => console.log(error));
 });
@@ -124,13 +135,12 @@ router.post('/post/:post_id/like', isLoggedIn, (req, res) => {
 
 router.post('/post/:post_id/comment', isLoggedIn, (req, res) => {
 	var newComment = new Comment();
-	newComment.comment= req.body.comment;
+	newComment.comment= req.body.comment1;
 	newComment.time = new Date();
 	newComment.user = req.user._id;
 	newComment.reply = [];
 
 	newComment.save(function(err, comment){
-		console.log(comment);
 	  if(err) {
 	    console.log(err);
 	  } else {
@@ -138,7 +148,7 @@ router.post('/post/:post_id/comment', isLoggedIn, (req, res) => {
 	      .then((post) => {
 	  	    post.comment.push(comment._id);	
 	  	    post.save(); 
-	  	    res.redirect('/home');   
+	  	    res.json(comment);
 	      })
 	      .catch(error => console.log(error));	    
         }
@@ -148,7 +158,7 @@ router.post('/post/:post_id/comment', isLoggedIn, (req, res) => {
 
 router.post('/post/:post_id/comment/:comment_id/reply', isLoggedIn, (req, res) => {
 	var newReply = new Reply();
-	newReply.reply = req.body.reply;
+	newReply.reply = req.body.reply1;
 	newReply.time = new Date();
 	newReply.user = req.user._id;
 
@@ -160,10 +170,10 @@ router.post('/post/:post_id/comment/:comment_id/reply', isLoggedIn, (req, res) =
 			  .then((comment) => {
 			  	comment.reply.push(reply._id);
 			  	comment.save();
-			  	res.redirect('/home');
+			  	res.json(reply);
 			  })
+			  .catch(error => console.log(error));
 		    } 
-
 	});
 
 });
@@ -240,6 +250,12 @@ function isLoggedIn(req, res, next){
 	if(req.isAuthenticated()){
 		return next();
 	}
-
 	res.redirect('/login');
+}
+
+function checkLogin(req, res, next){
+	if((req.url === '/login' || req.url === '/signup' || req.url === '/') && (req.user)){
+		res.redirect('/home');		
+	}
+	return next();
 }
