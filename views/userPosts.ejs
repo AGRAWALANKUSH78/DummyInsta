@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { 
+            margin-left: 30%;
+            background-color: ivory; 
+          }
+    #mytitle
+      {
+        margin: 10px 0 0 0;
+        font-weight: bold;
+        font-size: 18px;
+        font-family: Serif;
+      }
+  </style>
+</head>
+<body>
+  <% postsArr.forEach(function(eachPost){ %>
+    <div>
+      <p id = "mytitle"> <%= eachPost.title%> </p>
+      <img  src= <%= eachPost.photoUrl %> width = '250' height = '300'> 
+    </div>
+  <% }); %>
+</body>
+</html>

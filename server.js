@@ -12,7 +12,15 @@ var app = express();
 
 mongoose.connect('mongodb://localhost/video');
 
-var user = require('./routes/user');
+var post = require('./routes/post');
+var login = require('./routes/login');
+var signup = require('./routes/signup');
+var logout = require('./routes/logout');
+var home = require('./routes/home');
+var myposts = require('./routes/myposts');
+var addPost = require('./routes/addPost');
+var deletePost = require('./routes/deletePost');
+
 require('./config/passport');
 
 var db = mongoose.connection;
@@ -35,8 +43,8 @@ app.use(session({
 
 // middleware for preventing back button after logout
 app.use(function(req, res, next) {
-    if (!req.user)
-        res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  if (!req.user)
+    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
     next();
 });
 
@@ -44,10 +52,17 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-app.use(user);
+app.use(post);
+app.use(login);
+app.use(signup);
+app.use(logout);
+app.use(home);
+app.use(myposts);
+app.use(addPost)
+app.use(deletePost);
 
 app.listen(3000, function(){
 	console.log("our video server is running on 3000");
 })
 
-module.exports = db;
+// module.exports = db;

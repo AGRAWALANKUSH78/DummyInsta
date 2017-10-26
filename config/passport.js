@@ -1,8 +1,6 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
-// var flash    = require('connect-flash');
-
 var User = require('../models/user');
 
 
@@ -21,7 +19,6 @@ passport.use('local-signup', new LocalStrategy({
 	passReqToCallBack : true
 }, 
 function(username, password, done){
-
 	User.findOne({'username' : username}, function(err,user){
 		if(err){
 			return done(err);
@@ -31,7 +28,6 @@ function(username, password, done){
 		}
 
 		var newUser = new User();
-		// newUser.name = req.body.name;
 		newUser.username = username;
 		newUser.password = newUser.encryptPassword(password);
 
@@ -53,12 +49,11 @@ passport.use('local-login', new LocalStrategy({
 	passReqToCallBack : true
 }, 
 function(username, password, done){
-
 	User.findOne({'username' : username}, function(err,user){
 		if(err){
 			return done(err);
 		}
-
+		
 		if(!user){
 			return done(null, false);
 		}
@@ -67,10 +62,9 @@ function(username, password, done){
 			return done(null, false);
 		};
 
-			return done(null, user);
-
+		return done(null, user);
 	});
-	
+
 }));
 
 

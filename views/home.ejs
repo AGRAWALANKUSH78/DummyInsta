@@ -23,7 +23,7 @@
   <% allPosts.forEach(function(singlePost){ %>
     <div>
       <p id = "mytitle"> <%= singlePost.title%> </p>
-      <a target="_blank" href=  "post/<%= singlePost._id %>" >  <img  src= <%= singlePost.photoUrl %> width = '250' height = '300'>  </a>
+      <a target="_blank" href= "/post/<%= singlePost._id %>" >  <img  src= <%= singlePost.photoUrl %> width = '250' height = '300'>  </a>
     </div>
   <% }); %>
 

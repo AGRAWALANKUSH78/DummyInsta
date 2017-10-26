@@ -7,11 +7,12 @@
            background-color: ivory; 
          }
     #myname
-    {
-      margin : 5px 0 2px 0;
+     {
+      margin : 0px 0 -10px 0;
       font-weight: bold;
       font-size: 20px;
       font-family: Arial;
+      text-decoration: none;
     }
     #mytitle
     {
@@ -59,7 +60,7 @@
   </style>
 </head>
 <body>
-  <p id = "myname"> <%= specificPost.userId.username %> </p>  <p id= 'myduration'>  <%= specificPost.duration %> </p>
+  <p id = "myname"><a href="/post/user/<%=specificPost.userId.username %>"> <%= specificPost.userId.username %> </a> </p>  <p id= 'myduration'>  <%= specificPost.duration %> </p>
   <img  src= <%= specificPost.photoUrl %> width = '350' height = '400' align=”left”>
   <br>  
   <div>
@@ -140,8 +141,6 @@ function replyPost(postId, commentId) {
     }
   })
 };
-
-
 
 
 
