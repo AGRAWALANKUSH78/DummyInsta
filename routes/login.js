@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var passport = require('passport');
+import express from 'express';
+import passport from 'passport';
+const router = express.Router();
 
 
 router.get('/', checkLogin, (req, res) => {
@@ -20,8 +20,7 @@ router.post('/login', passport.authenticate('local-login', {
 }));
 
 
-
-module.exports = router;
+export { router } ;
 
 function checkLogin(req, res, next){
 	if((req.url === '/login' || req.url === '/signup' || req.url === '/') && (req.user)){

@@ -1,6 +1,6 @@
-var Post = require('../models/post');
+import { Post as Post } from '../models/post';
 
-function mypostsController (req, res){
+const mypostsController = (req, res) => {
 	Post.find({ userId : req.user.id})
 	  .then((obj) => {
 	  	res.render('mypost', { userPosts : obj });
@@ -8,4 +8,4 @@ function mypostsController (req, res){
 	  .catch(error => console.log(error));
 };
 
-module.exports = { mypostsController }
+export { mypostsController };

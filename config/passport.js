@@ -1,15 +1,15 @@
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
 
-var User = require('../models/user');
+import { User as User } from '../models/user';
 
 
-passport.serializeUser(function(user, done){
+passport.serializeUser((user, done) => {
 	done(null, user.id);
 });
 
-passport.deserializeUser(function(id, done){
-	User.findById(id, function(err, user){
+passport.deserializeUser((id, done) => {
+	User.findById(id, (err, user) => {
 		done(err, user);
 	});
 });
@@ -18,8 +18,8 @@ passport.deserializeUser(function(id, done){
 passport.use('local-signup', new LocalStrategy({
 	passReqToCallBack : true
 }, 
-function(username, password, done){
-	User.findOne({'username' : username}, function(err,user){
+(username, password, done) => {
+	User.findOne({'username' : username}, (err,user) => {
 		if(err){
 			return done(err);
 		}
@@ -27,7 +27,7 @@ function(username, password, done){
 			return done(null, false);
 		}
 
-		var newUser = new User();
+		const newUser = new User();
 		newUser.username = username;
 		newUser.password = newUser.encryptPassword(password);
 
@@ -48,8 +48,8 @@ passport.use('local-login', new LocalStrategy({
 	passwordField : 'password',
 	passReqToCallBack : true
 }, 
-function(username, password, done){
-	User.findOne({'username' : username}, function(err,user){
+(username, password, done) => {
+	User.findOne({'username' : username}, (err,user) => {
 		if(err){
 			return done(err);
 		}

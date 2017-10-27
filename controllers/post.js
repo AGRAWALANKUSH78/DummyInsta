@@ -1,8 +1,8 @@
-var moment = require('moment');
+import moment from 'moment';
 
-var Post = require('../models/post');
+import { Post as Post } from '../models/post';
 
-function postController(req, res) {
+const postController = (req, res) => {
   Post.findById({ _id : req.params.post_id })
     .populate({
       path: 'comment', 
@@ -34,5 +34,5 @@ function postController(req, res) {
     .catch(error => console.log(error));
 };
 
-module.exports = { postController };
+export { postController };
 

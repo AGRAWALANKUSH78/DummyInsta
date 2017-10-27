@@ -1,29 +1,31 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var session = require('express-session');
-var mongoose = require('mongoose');
-var passport = require('passport');
-var mongoStore = require('connect-mongo')(session);
-var flash    = require('connect-flash');
+import express from 'express';
+import path from 'path';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
+import session from 'express-session';
+import mongoose from 'mongoose';
+import passport from 'passport';
+import flash from 'connect-flash';
+import mongoStore from 'connect-mongo';
 
-var app = express();
+const MongoStore = mongoStore(session);
+
+const app = express();
 
 mongoose.connect('mongodb://localhost/video');
 
-var post = require('./routes/post');
-var login = require('./routes/login');
-var signup = require('./routes/signup');
-var logout = require('./routes/logout');
-var home = require('./routes/home');
-var myposts = require('./routes/myposts');
-var addPost = require('./routes/addPost');
-var deletePost = require('./routes/deletePost');
+import { router as post } from './routes/post';
+import { router as login } from './routes/login';
+import { router as signup } from './routes/signup';
+import { router as logout } from './routes/logout';
+import { router as home } from './routes/home';
+import { router as myposts } from './routes/myposts';
+import { router as addPost } from './routes/addPost';
+
 
 require('./config/passport');
 
-var db = mongoose.connection;
+const db = mongoose.connection;   
 db.once('open', function(){
   console.log('connection to database is established');
 });
@@ -38,7 +40,7 @@ app.use(session({
 	secret : 'tocatocatoca',
 	resave : true,
 	saveUninitialized : true,
-	store : new mongoStore({mongooseConnection : mongoose.connection})
+	store : new MongoStore({mongooseConnection : mongoose.connection})
 }));
 
 // middleware for preventing back button after logout
@@ -59,10 +61,7 @@ app.use(logout);
 app.use(home);
 app.use(myposts);
 app.use(addPost)
-app.use(deletePost);
 
-app.listen(3000, function(){
+app.listen(3000, () => {
 	console.log("our video server is running on 3000");
 })
-
-// module.exports = db;

@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-var replySchema = mongoose.Schema({
+const replySchema = mongoose.Schema({
   reply: String,
   time: Date,
   user : {
@@ -9,4 +9,5 @@ var replySchema = mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Reply', replySchema);
+const Reply = mongoose.model('Reply', replySchema);
+export { Reply };

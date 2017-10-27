@@ -1,24 +1,20 @@
-var express = require('express');
-var router = express.Router();
-var multer = require('multer');
+import express from 'express';
+import multer from 'multer';
+const router = express.Router();
 
-var upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: 'uploads/' });
 
-var addPost = require('../controllers/addPost');
+import { addPostController as addPostController } from '../controllers/addPost';
+import { isLoggedIn as isLoggedIn } from '../config/loginAuth';
 
 
-router.get('/add-post', isLoggedIn, function(req, res){
+router.get('/add-post', isLoggedIn, (req, res) => {
 	res.render('add-post');
 });
 
-router.post('/add-post', upload.single('image'), addPost.addPostController);
+router.post('/add-post', upload.single('image'), addPostController);
 
 
-module.exports = router;
+export { router} ;
 
-function isLoggedIn(req, res, next){
-	if(req.isAuthenticated()){
-		return next();
-	}
-	res.redirect('/login');
-}
+

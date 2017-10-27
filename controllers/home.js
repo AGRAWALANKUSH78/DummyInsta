@@ -1,6 +1,6 @@
-var Post = require('../models/post');
+import { Post as Post } from '../models/post';
 
-function homeController(req, res) {
+const homeController = (req, res) => {
 	Post.find({}, (err, arr) => {
     if(err){
 		  console.log(err);
@@ -10,4 +10,4 @@ function homeController(req, res) {
 	});
 };
 
-module.exports = { homeController };
+export { homeController };

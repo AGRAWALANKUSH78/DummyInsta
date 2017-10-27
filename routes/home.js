@@ -1,15 +1,9 @@
-var express = require('express');
-var router = express.Router();
+import express from 'express';
+const router = express.Router();
 
-var home = require('../controllers/home');
+import { homeController as homeController } from '../controllers/home';
+import { isLoggedIn as isLoggedIn } from '../config/loginAuth';
 
-router.get('/home', isLoggedIn, home.homeController);
+router.get('/home', isLoggedIn, homeController);
 
-module.exports = router;
-
-function isLoggedIn(req, res, next){
-	if(req.isAuthenticated()){
-		return next();
-	}
-	res.redirect('/login');
-}
+export { router};

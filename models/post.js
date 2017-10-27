@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-var postSchema = mongoose.Schema({
+const postSchema = mongoose.Schema({
   title : String,
   description : String,
   photoUrl : String,
@@ -18,4 +18,5 @@ var postSchema = mongoose.Schema({
             ref : 'User' }
 });
 
-module.exports = mongoose.model('Post', postSchema);
+const Post = mongoose.model('Post', postSchema);
+export { Post };

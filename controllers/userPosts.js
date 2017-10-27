@@ -1,7 +1,7 @@
-var User = require('../models/user');
-var Post = require('../models/post');
+import { User as User } from '../models/user';
+import { Post as Post } from '../models/post';
 
-function userPostsController(req, res) {
+const userPostsController = (req, res) => {
 	User.findOne({ 'username' : req.params.username })
 	  .then((userDetails) => {
 	  	Post.find({ 'userId' : userDetails._id })
@@ -12,4 +12,4 @@ function userPostsController(req, res) {
 	  .catch(error => console.log(error));
 };
 
-module.exports = { userPostsController }
+export { userPostsController };

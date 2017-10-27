@@ -1,13 +1,13 @@
-var Comment = require('../models/comment');
-var Reply = require('../models/reply');
+import { Comment as Comment } from '../models/comment';
+import { Reply as Reply } from '../models/reply';
 
-function replyController(req, res) {
-	var newReply = new Reply();
+const replyController = (req, res) => {
+	const newReply = new Reply();
 	newReply.reply = req.body.ajaxReply;
 	newReply.time = new Date();
 	newReply.user = req.user._id;
 
-	newReply.save(function (err, reply){
+	newReply.save((err, reply) => {
 		if(err){
 			console.log(err);
 		} else {
@@ -22,4 +22,4 @@ function replyController(req, res) {
 	});
 };
 
-module.exports = { replyController }
+export { replyController };

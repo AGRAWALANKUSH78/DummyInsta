@@ -1,9 +1,10 @@
-var Post = require('../models/post');
+import { Post as Post } from '../models/post';
 
-function addPostController(req, res){
-	var path = req.file ? req.file.path.replace('uploads', '') : '';
 
-	var post = new Post;
+const addPostController = (req, res) => {
+	const path = req.file ? req.file.path.replace('uploads', '') : '';
+
+	const post = new Post;
 	post.title = req.body.title;
 	post.description = req.body.description;
 	post.time = new Date();
@@ -12,7 +13,7 @@ function addPostController(req, res){
   post.userId = req.user._id;
   post.photoUrl = path;
 
-  post.save(function(err){
+  post.save((err) => {
 	  if(err) {
 		  console.log(err);
 	  } else {
@@ -21,4 +22,4 @@ function addPostController(req, res){
   });
 };
 
-module.exports = { addPostController };
+export { addPostController };

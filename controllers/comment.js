@@ -1,14 +1,14 @@
-var Comment = require('../models/comment');
-var Post = require('../models/post');
+import { Comment as Comment } from '../models/comment';
+import { Post as Post } from '../models/post';
 
-function commentController(req, res) {
-	var newComment = new Comment();
+const commentController = (req, res) => {
+	const newComment = new Comment();
 	newComment.comment= req.body.ajaxComment;
 	newComment.time = new Date();
 	newComment.user = req.user._id;
 	newComment.reply = [];
 
-	newComment.save(function(err, comment){
+	newComment.save((err, comment) => {
 	  if(err) {
 	    console.log(err);
 	  } else {
@@ -23,4 +23,4 @@ function commentController(req, res) {
     });
 };
 
-module.exports = { commentController };
+export { commentController };

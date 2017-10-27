@@ -1,6 +1,6 @@
-function logoutController(req, res){
+const logoutController = (req, res) => {
 	req.logout();
 	res.redirect('/');
 };
 
-module.exports = { logoutController }
+export { logoutController };
