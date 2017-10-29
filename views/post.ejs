@@ -60,11 +60,16 @@
   </style>
 </head>
 <body>
-  <p id = "myname"><a href="/post/user/<%=specificPost.userId.username %>"> <%= specificPost.userId.username %> </a> </p>  <p id= 'myduration'>  <%= specificPost.duration %> </p>
-  <img  src= <%= specificPost.photoUrl %> width = '350' height = '400' align=”left”>
+  <p id = "myname"><a href="/user/<%=specificPost.userId.username %>"> <%= specificPost.userId.username %> </a> </p>  <p id= 'myduration'>  <%= specificPost.duration %> </p>
+  <img  src= <%= specificPost.photoUrl %> width = '350' height = '400' align=”left”/>
   <br>  
   <div>
     <button id="likebutton" onclick="likePost('<%= specificPost.id %>')"><%= specificPost.likestatus %></button>
+    <% for(i=0; i<3; i++){  %>
+      <% if(i < specificPost.like.length) { %>
+        <%= specificPost.like[i].username%>,
+      <% } %>
+    <% } %>also liked this.
   </div>
   <p id = "mytitle"> <%= specificPost.title%> </p> 
   <p id = "mydescription"> <%= specificPost.description %> </p>
