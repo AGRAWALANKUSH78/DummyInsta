@@ -1,27 +1,31 @@
 import express from 'express';
+import multer from 'multer';
 const router = express.Router();
 
-import { postController as postController } from '../controllers/post';
-import { likeController as likeController } from '../controllers/like';
-import { commentController as commentController } from '../controllers/comment';
-import { replyController as replyController } from '../controllers/reply';
-import { userPostsController as userPostsController } from '../controllers/userPosts';
-import { deleteController as deleteController } from '../controllers/deletePost';
+const upload = multer({ dest: 'public/images' });
+
+import { getPost, deletePost, createPost } from '../controllers/post/post';
+import { postLike as postLike } from '../controllers/post/like';
+import { postComment as postComment } from '../controllers/post/comment';
+import { postReply as postReply } from '../controllers/post/reply';
 import { isLoggedIn as isLoggedIn } from '../config/loginAuth';
 
 
+router.get('/post', isLoggedIn, (req, res) => {
+	res.render('add-post');
+});
 
-router.get('/post/:post_id' , isLoggedIn, postController);
+router.post('/post', upload.single('image'), createPost);
 
-router.post('/post/:post_id/like', isLoggedIn, likeController);
+router.get('/post/:post_id' , isLoggedIn, getPost);
 
-router.post('/post/:post_id/comment', isLoggedIn, commentController);
+router.post('/post/:post_id/like', isLoggedIn, postLike);
 
-router.post('/post/:post_id/comment/:comment_id/reply', isLoggedIn, replyController);
+router.post('/post/:post_id/comment', isLoggedIn, postComment);
 
-router.get('/post/user/:username', isLoggedIn, userPostsController);
+router.post('/post/:post_id/comment/:comment_id/reply', isLoggedIn, postReply);
 
-router.get('/post/:post_id/delete' , isLoggedIn, deleteController);
+router.delete('/post/:post_id/delete' , isLoggedIn, deletePost);
 
 
 export { router };

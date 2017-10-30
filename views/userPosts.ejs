@@ -16,10 +16,10 @@
   </style>
 </head>
 <body>
-  <% postsArr.forEach(function(eachPost){ %>
+  <% Posts.forEach(function(Post){ %>
     <div>
-      <p id = "mytitle"> <%= eachPost.title%> </p>
-      <img  src= <%= eachPost.photoUrl %> width = '250' height = '300'> 
+      <p id = "mytitle"> <%= Post.title%> </p>
+      <img  src= <%= Post.photoUrl %> width = '250' height = '300'> 
     </div>
   <% }); %>
 </body>

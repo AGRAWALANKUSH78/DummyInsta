@@ -16,14 +16,14 @@
   </style>
 </head>
 <body>
-  <button style="position: absolute; left: 30px;"> <a href="/add-post"> upload post </a> </button>
+  <button style="position: absolute; left: 30px;"> <a href="/post"> upload post </a> </button>
   <button style="position: absolute; right: 100px;"> <a href= '/myposts'> My Posts </a> </button>
   <button style="position: absolute; right: 30px;"> <a href= '/logout'> Logout </a> </button> <br>
 
-  <% allPosts.forEach(function(singlePost){ %>
+  <% Posts.forEach(function(Post){ %>
     <div>
-      <p id = "mytitle"> <%= singlePost.title%> </p>
-      <a target="_blank" href= "/post/<%= singlePost._id %>" >  <img  src= <%= singlePost.photoUrl %> width = '250' height = '300'>  </a>
+      <p id = "mytitle"> <%= Post.title%> </p>
+      <a target="_blank" href= "/post/<%= Post._id %>" >  <img  src= <%= Post.photoUrl %> width = '250' height = '300'/>  </a>
     </div>
   <% }); %>
 

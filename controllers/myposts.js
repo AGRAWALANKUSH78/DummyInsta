@@ -1,11 +1,11 @@
 import { Post as Post } from '../models/post';
 
-const mypostsController = (req, res) => {
+const getMyPosts = (req, res) => {
 	Post.find({ userId : req.user.id})
-	  .then((obj) => {
-	  	res.render('mypost', { userPosts : obj });
+	  .then((posts) => {
+	  	res.render('myposts', { Posts : posts });
 	  })
 	  .catch(error => console.log(error));
 };
 
-export { mypostsController };
+export { getMyPosts };

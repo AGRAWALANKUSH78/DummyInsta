@@ -1,9 +1,9 @@
 import express from 'express';
 const router = express.Router();
 
-import { homeController as homeController } from '../controllers/home';
+import { getHome as getHome } from '../controllers/home';
 import { isLoggedIn as isLoggedIn } from '../config/loginAuth';
 
-router.get('/home', isLoggedIn, homeController);
+router.get('/home', isLoggedIn, getHome);
 
-export { router};
+export { router };

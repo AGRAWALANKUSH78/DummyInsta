@@ -1,6 +1,6 @@
-const logoutController = (req, res) => {
+const getLogout = (req, res) => {
 	req.logout();
 	res.redirect('/');
 };
 
-export { logoutController };
+export { getLogout };

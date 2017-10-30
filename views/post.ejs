@@ -54,35 +54,61 @@
       font-family: Arial;
     }
     .reply {
-      margin: 0 0 -15px 0;
+      margin: 0px 0 -15px 0;
     }
    
   </style>
 </head>
 <body>
-  <p id = "myname"><a href="/user/<%=specificPost.userId.username %>"> <%= specificPost.userId.username %> </a> </p>  <p id= 'myduration'>  <%= specificPost.duration %> </p>
-  <img  src= <%= specificPost.photoUrl %> width = '350' height = '400' align=”left”/>
+  <p id = "myname"><a href="/user/<%= Post.userId.username %>"> <%= Post.userId.username %> </a> </p>  <p id= 'myduration'>  <%= Post.duration %> </p>
+  <img  src= <%= Post.photoUrl %> width = '350' height = '400' align=”left”/>
   <br>  
   <div>
-    <button id="likebutton" onclick="likePost('<%= specificPost.id %>')"><%= specificPost.likestatus %></button>
-    <% for(i=0; i<3; i++){  %>
-      <% if(i < specificPost.like.length) { %>
-        <%= specificPost.like[i].username%>,
-      <% } %>
-    <% } %>also liked this.
-  </div>
-  <p id = "mytitle"> <%= specificPost.title%> </p> 
-  <p id = "mydescription"> <%= specificPost.description %> </p>
+    <button id="likebutton" onclick="likePost('<%= Post.id %>')"><%= Post.likestatus %></button>
 
-  <% specificPost.comment.forEach(function(commentId){ %>
+    <% if(Post.like.length == 3 ) { %>
+      <% for(i=0; i< Post.like.length ; i++) { %>
+        <% if(i<2){ %>
+        <%= Post.like[i].username%>,
+        <% } else { %>
+        <%= Post.like[i].username%>
+        <% } %>
+      <% } %> liked this.
+    <% } %>  
+
+    <% if(Post.like.length == 2 ) { %>
+      <% for(i=0; i< Post.like.length ; i++) { %>
+        <% if(i<1){ %>
+        <%= Post.like[i].username%>,
+        <% } else { %>
+        <%= Post.like[i].username%>
+        <% } %>
+      <% } %> liked this.
+    <% } %> 
+
+    <% if(Post.like.length == 1 ) { %>
+      <% for(i=0; i< Post.like.length ; i++) { %>
+        <% if(i<0){ %>
+        <%= Post.like[i].username%>,
+        <% } else { %>
+        <%= Post.like[i].username%>
+        <% } %>
+      <% } %> liked this.
+    <% } %>
+
+  </div>
+  <p id = "mytitle"> <%= Post.title%> </p> 
+  <p id = "mydescription"> <%= Post.description %> </p>
+
+  <% Post.comment.forEach(function(commentId){ %>
     <div>
       <p id = "mycomment"> <b> <%= commentId.user.username %> => </b> <%= commentId.comment %> </p> 
       <% commentId.reply.forEach(function(replyId){  %>
         <p id = 'replies' > <i><b> <%= replyId.user.username %> : </b><i> <%= replyId.reply %> </p>
       <% }); %>
           
-      <textarea name="reply" placeholder="" rows = "1" cols = "20" class="reply" id = "myreply_<%= commentId._id%>"></textarea> </p>
-      <button onclick="replyPost('<%= specificPost._id %>','<%= commentId._id %>')" id = "myreplybutton" > Reply </button>
+     <p> <textarea name="reply" placeholder="" rows = "1" cols = "20" class="reply" id ="myreply_<%= commentId._id%>"></textarea> </p>
+      <button onclick="replyPost('<%= Post._id %>','<%= commentId._id %>')" id = "myreplybutton" > Reply </button>
     </div>
   <% }); %>
 
@@ -91,63 +117,13 @@
     <textarea name="comment" placeholder="" rows = "3" cols = "20" id = "newcomment"></textarea> 
     </p>
     <p>
-    <button onclick="commentPost('<%= specificPost.id %>')" id='commentbutton'>  comment </button>
+    <button onclick="commentPost('<%= Post.id %>')" id='commentbutton'>  comment </button>
     </p>
   </div>
 </body>
 
-
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script>
-
-function likePost(id) {
-  var elem = document.getElementById("likebutton"); 
-  $.ajax({
-    type: 'POST',
-    url: `/post/${id}/like`,
-    success: function(result) {
-      alert(result.action);
-      if(elem.innerHTML == "Like") {
-        elem.innerHTML = "Liked";
-      } else {
-        elem.innerHTML = "Like";
-      }
-    }
-  });
-};
+<script type="text/javascript" src="/javascript/ajax.js"></script>
 
 
-function commentPost(id) {  
-  var comment = document.getElementById("newcomment").value;
-  $.ajax({
-    type: 'POST',
-    url: `/post/${id}/comment`,
-    data : {
-      'ajaxComment' : comment
-    },
-    success: function(result){
-      window.location = '/post/' + id;
-    }
-  })
-};
-
-
-function replyPost(postId, commentId) {  
-  var reply = document.getElementById(`myreply_${commentId}`).value;
-  $.ajax({
-    type: 'POST',
-    url: `/post/${postId}/comment/${commentId}/reply`,
-    data : {
-      'ajaxReply' : reply
-    },
-    success: function(result){
-      window.location = '/post/' + postId;
-    }
-  })
-};
-
-
-
-</script>
 </html>
