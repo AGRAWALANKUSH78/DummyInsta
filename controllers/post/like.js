@@ -1,6 +1,6 @@
-import { Post as Post } from '../models/post';
+import { Post as Post } from '../../models/post';
 
-const likeController = (req, res) => {
+const postLike = (req, res) => {
   let liked = [];
   let action;
   const userId = req.user.id;   
@@ -22,4 +22,4 @@ const likeController = (req, res) => {
     .catch(error => console.log(error));
 };
 
-export { likeController };
+export { postLike };

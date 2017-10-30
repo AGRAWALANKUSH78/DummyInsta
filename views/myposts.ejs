@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { 
+            margin-left: 30%;
+            background-color: ivory; 
+          }
+    #mytitle
+      {
+        margin: -19px 0 2px 0;
+        font-weight: bold;
+        font-size: 18px;
+        font-family: Serif;
+      }
+    #mydelete
+      {
+        margin: 10px 0 -150px 245px;
+      }
+  </style>
+</head>
+<body>
+  <div>
+  Hello <%= User %>, you have uploaded <%=Posts.length%> Posts.
+  <button style="position: absolute; right: 30px;" > <a href= '/home' > Home </a> </button>
+  </div>
+  <% Posts.forEach(function(Post){ %>
+    <div>
+      <button id = "mydelete" onclick="deletePost('<%=Post._id%>', '<%= User %>')"> Delete </button>
+      <p id = "mytitle"> <%= Post.title%> </p>
+      <img  src= <%= Post.photoUrl %> width = '300' height = '350'/> 
+    </div>
+  <% }); %>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="/javascript/ajax.js"></script>
+
+</html>
+
+
+
+
+
+
+
+

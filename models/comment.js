@@ -4,13 +4,13 @@ const commentSchema = mongoose.Schema({
   comment: String,
   time: Date,
   reply : [{
-              type : mongoose.Schema.Types.ObjectId,
-              ref : 'Reply'
-            }],
+    type : mongoose.Schema.Types.ObjectId,
+    ref : 'Reply'
+  }],
   user : {
-              type : mongoose.Schema.Types.ObjectId,
-              ref : 'User'
-            }
+    type : mongoose.Schema.Types.ObjectId,
+    ref : 'User'
+  }
 });
 
 const Comment = mongoose.model('Comment', commentSchema);

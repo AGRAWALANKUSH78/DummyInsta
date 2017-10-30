@@ -6,16 +6,17 @@ const postSchema = mongoose.Schema({
   photoUrl : String,
   time : Date,
   like : [{
-            type : mongoose.Schema.Types.ObjectId,
-            ref : 'User'
-          }],
+    type : mongoose.Schema.Types.ObjectId,
+    ref : 'User'
+  }],
   comment : [{
-            type : mongoose.Schema.Types.ObjectId,
-            ref : 'Comment'
-          }],
+    type : mongoose.Schema.Types.ObjectId,
+    ref : 'Comment'
+  }],
   userId : { 
-            type : mongoose.Schema.Types.ObjectId, 
-            ref : 'User' }
+    type : mongoose.Schema.Types.ObjectId, 
+    ref : 'User' 
+  }
 });
 
 const Post = mongoose.model('Post', postSchema);

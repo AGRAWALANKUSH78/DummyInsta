@@ -4,7 +4,7 @@ const router = express.Router();
 
 const upload = multer({ dest: 'public/images' });
 
-import { getPost, deletePost, createPost } from '../controllers/post/post';
+import { getPost, deletePost, createPost } from '../controllers/post';
 import { postLike as postLike } from '../controllers/post/like';
 import { postComment as postComment } from '../controllers/post/comment';
 import { postReply as postReply } from '../controllers/post/reply';

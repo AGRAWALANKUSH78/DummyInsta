@@ -17,7 +17,7 @@
 </head>
 <body>
   <button style="position: absolute; left: 30px;"> <a href="/post"> upload post </a> </button>
-  <button style="position: absolute; right: 100px;"> <a href= '/myposts'> My Posts </a> </button>
+  <button style="position: absolute; right: 100px;"> <a href= '/user/<%=User.username%>'> <%= User.username %> </a> </button>
   <button style="position: absolute; right: 30px;"> <a href= '/logout'> Logout </a> </button> <br>
 
   <% Posts.forEach(function(Post){ %>

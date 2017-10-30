@@ -3,14 +3,14 @@ import bcrypt from 'bcrypt-nodejs';
 
 const userSchema = mongoose.Schema({
   username: {
-      type: String,
-      required: true,
-      unique: true
-    },
+    type: String,
+    required: true,
+    unique: true
+  },
   password: {
-      type: String,
-      required: true
-    }
+    type: String,
+    required: true
+  }
 });
 
 userSchema.methods.encryptPassword = (password) => {

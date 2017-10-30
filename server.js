@@ -19,9 +19,7 @@ import { router as login } from './routes/login';
 import { router as signup } from './routes/signup';
 import { router as logout } from './routes/logout';
 import { router as home } from './routes/home';
-import { router as myposts } from './routes/myposts';
-import { router as addPost } from './routes/addPost';
-
+import { router as userPosts } from './routes/userPosts';
 
 require('./config/passport');
 
@@ -33,7 +31,7 @@ db.once('open', function(){
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use(express.static('uploads'));
+app.use(express.static('public'));
 app.use(cookieParser());
 
 app.use(session({
@@ -59,8 +57,7 @@ app.use(login);
 app.use(signup);
 app.use(logout);
 app.use(home);
-app.use(myposts);
-app.use(addPost)
+app.use(userPosts);
 
 app.listen(3000, () => {
 	console.log("our video server is running on 3000");

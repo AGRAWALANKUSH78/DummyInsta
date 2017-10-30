@@ -1,9 +1,12 @@
-import { Comment as Comment } from '../models/comment';
-import { Reply as Reply } from '../models/reply';
+import { Comment as Comment } from '../../models/comment';
+import { Reply as Reply } from '../../models/reply';
 
-const replyController = (req, res) => {
+const postReply = (req, res) => {
+	if(req.body.Reply == ""){
+		res.json({Reply});
+  } else {
 	const newReply = new Reply();
-	newReply.reply = req.body.ajaxReply;
+	newReply.reply = req.body.Reply;
 	newReply.time = new Date();
 	newReply.user = req.user._id;
 
@@ -20,6 +23,7 @@ const replyController = (req, res) => {
 			  .catch(error => console.log(error));
 		}
 	});
+  }
 };
 
-export { replyController };
+export { postReply };

@@ -1,9 +1,12 @@
-import { Comment as Comment } from '../models/comment';
-import { Post as Post } from '../models/post';
+import { Comment as Comment } from '../../models/comment';
+import { Post as Post } from '../../models/post';
 
-const commentController = (req, res) => {
+const postComment = (req, res) => {
+	if(req.body.Comment == ""){
+		res.json({Comment});
+  } else {
 	const newComment = new Comment();
-	newComment.comment= req.body.ajaxComment;
+	newComment.comment= req.body.Comment;
 	newComment.time = new Date();
 	newComment.user = req.user._id;
 	newComment.reply = [];
@@ -16,11 +19,12 @@ const commentController = (req, res) => {
 	      .then((post) => {
 	  	    post.comment.push(comment._id);	
 	  	    post.save(); 
-	  	    res.json(comment);
+		      res.json(comment);
 	      })
 	      .catch(error => console.log(error));	    
         }
     });
+  }
 };
 
-export { commentController };
+export { postComment };
